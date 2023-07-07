@@ -53,6 +53,12 @@ app.use('/client', express.static(path.resolve(__dirname, '../client')));
 // use all routes in routes folder
 app.use('/api', router);
 
+// Signup route
+app.post('/signup', userController.createUser, cookieController.setSSIDCookie, sessionController.startSession,(req, res) => {
+  // what should happen here on successful sign up?
+  res.redirect('/secret');
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.status(404).send('404 page not found'));
 
