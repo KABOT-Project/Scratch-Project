@@ -1,4 +1,3 @@
-
 const { Pool } = require('pg');
 
 const PG_URI = 'postgres://bwkdjkqj:Mc0GUvXKF9M5wNiMDUYKyHvQoDojVdYZ@lallah.db.elephantsql.com/bwkdjkqj';
@@ -20,21 +19,21 @@ module.exports = {
 const SALT_WORK_FACTOR = 10;
 const bcrypt = require('bcryptjs');
 
-const userSchema = new Schema({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true}
-});
+// const userSchema = new Schema({
+//   username: {type: String, required: true, unique: true},
+//   password: {type: String, required: true}
+// });
 
-userSchema.pre('save', function(next){
-  bcrypt.hash(this['password'], SALT_WORK_FACTOR, (err, hash) => {
-    console.log(this['password']);
-    this['password'] = hash; 
-    console.log(hash);
-    next();
-  });
-})
+// userSchema.pre('save', function(next){
+//   bcrypt.hash(this['password'], SALT_WORK_FACTOR, (err, hash) => {
+//     console.log(this['password']);
+//     this['password'] = hash; 
+//     console.log(hash);
+//     next();
+//   });
+// })
 
 
-module.exports = mongoose.model('User', userSchema);
+// module.exports = mongoose.model('User', userSchema);
 
 //change for postgresql
