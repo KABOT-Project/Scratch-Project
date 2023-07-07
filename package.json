@@ -38,6 +38,7 @@
         "mocha": "^2.4.5",
         "mongoose": "^6.11.2",
         "nodemon": "^1.8.1",
+        "pg": "^8.11.1",
         "react": "^18.2.0",
         "react-canvas-confetti": "^1.4.0",
         "react-confetti": "^6.1.0",
