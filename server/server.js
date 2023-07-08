@@ -8,21 +8,21 @@ const PORT = 3000;
 
 const app = express();
 
-// connect to MongoDB and listen on port 3000
-// mongoose.connect(mongoURI, err => {
-//   if (err) {
-//     console.error('MongoDB connection error:', err);
-//   } else {
-//     console.log('Connected to MongoDB Atlas');
-//     app.listen(PORT, () => {
-//       console.log(`Server listening on port ${PORT}`);
-//     });
-//   }
-// });
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const sessionConfig = {
+  store: new (require('connect-pg-simple')(session))({
+    conString: 'postgres://bwkdjkqj:Mc0GUvXKF9M5wNiMDUYKyHvQoDojVdYZ@lallah.db.elephantsql.com/bwkdjkqj'
+  }),
+  secret: 'secret',
+  saveUnitialized: false,
+  resave: false,  
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+  user_id: ""
+}
+
+app.use(session(sessionConfig))
 // setup session functionality 
 // app.use(
 //   session({
