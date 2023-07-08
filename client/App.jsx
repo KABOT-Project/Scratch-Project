@@ -6,7 +6,6 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Homepage from './pages/Homepage.jsx';
 import Recipes from './pages/Recipes.jsx';
-import Add from './pages/Add.jsx';
 
 const App = () => {
   return (
@@ -17,7 +16,6 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/recipes" element={<Recipes />} />
-        <Route path="/add" element={<Add />} />
       </Routes>
     </>
   );
