@@ -29,8 +29,7 @@ const Recipes = () => {
 
       const data = await response.json();
       if (response.ok){
-        console.log(data)
-        // getRecipes(data);
+        getRecipes(data);
       }
       
     } catch (error) {
@@ -61,7 +60,7 @@ const Recipes = () => {
       <Box>
         <h1>Recipes</h1>
           {recipes.map((recipe, index) => (
-            <Recipe key={index} name={recipe} />
+            <Recipe key={index} name={recipe.recipe_name} />
           ))}
       </Box>
        
