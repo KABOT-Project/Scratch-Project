@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 const recipeController = require('../controllers/recipeController');
 const cookieController = require('../controllers/cookieController');
 const sessionController = require('../controllers/sessionController')
+const generationController = require('../controllers/generationController');
 
 // const cookieController = require('../controllers/cookieController');
 // const userController = require('../controllers/userController');
@@ -18,20 +19,28 @@ router.post('/signup', userController.createUser, cookieController.setSSIDCookie
     res.sendStatus(200);
   });
 
-  router.get('/recipes', recipeController.getRecipes, recipeController.getIngredients, (req, res) => {
-    console.log('GET request for recipeController.getRecipes has fired');
+// route handler to get recipes for recipe page
+router.get('/recipes', recipeController.getRecipes, recipeController.getIngredients, (req, res) => {
+    console.log('/recipes GET request for recipeController.getRecipes & recipeController.getIngredients has fired');
     res.status(200).json(res.locals.data);
   });
 
-  router.post('/recipes', recipeController.postRecipe, (req, res) => {
-    console.log('POST request for recipeControler.postRecipe has fired');
+// route handler to post recipes and return posting to render on frontend
+router.post('/recipes', recipeController.postRecipe, (req, res) => {
+    console.log('/recipes POST request for recipeControler.postRecipe has fired');
     res.status(200).json(res.locals.data);
-  })
+  });
 
+  // route handler to retrive user recipes for the homepage and parse data for randomized week with additional parameters 
+router.post('/homepage', generationController.getRecipes, generationController.getIngredients, generationController.handleUserData, (req, res) => {
+    console.log('/homepage GET request for recipeController.getRecipes, recipeController.getIngredients & gernationController.handleUserData has fired');
+    res.status(200).json(res.locals.data);
+});
 
 //userController -> verifyUser, setSSIDcookie, start session
 router.post('/login', userController.verifyUser, cookieController.setSSIDCookie, (req, res) => {
   console.log("Post request for /login")
+  console.log(req.session.user_id);
   res.sendStatus(200);
 });
 
