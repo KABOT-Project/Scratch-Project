@@ -14,33 +14,46 @@ const Recipes = () => {
   const [ingredients, addNewIngredient] = useState([]);
 
   // hook for submitting new recipe to DB
-  const [newRecipe, addNewRecipe] = useState({ recipe_name: '', recipe_type: '', ingredientList: [] });
+  const [newRecipe, addNewRecipe] = useState({ recipe_name: '', recipe_type: '', ingredientList: [{ ingredient_name: '', amount: '', unit: '' }] });
 
   // user recipes will be rendered to page when page is loaded
   useEffect(async () => {
+    // // dummy data:
     // let response = ['Pasta', 'Burger', 'Ice Cream', 'Seafood'];
     try {
+      // GET request to grab current users recipes
       const response = await fetch('/api/recipes', {
         method: 'GET',
         headers: {
           credentials: 'same-origin'
         }
       })
-
+      // convert received data from server from JSON
       const data = await response.json();
+      // if response received is okay
       if (response.ok){
+        // invoke getRecipes, passing in received JS data. This should render recipes to page
         getRecipes(data);
       }
-      
+    // if GET request fails
     } catch (error) {
+      // console log error
       console.log(error);
     }
-
   }, []);
 
   // function to add new ingredient input
   const handleNewIngredient = () => {
+    // add new ingredient input
     addNewIngredient([...ingredients, '']);
+    // push new object into ingredientList to match up with text field:
+    const newIngredient = { ingredient_name: '', amount: '', unit: '' };
+    // pass in current newRecipe state to addNewRecipe
+    addNewRecipe((newRecipe) => ({
+      ...newRecipe,
+      // add newIngredient object to end of ingredientList
+      ingredientList: [...newRecipe.ingredientList, newIngredient]
+    }));
   }
 
   // function to submit new recipe to DB
@@ -72,17 +85,17 @@ const Recipes = () => {
           <Button variant="contained" onClick={handleNewIngredient}>Add Ingredient</Button>
           <Button variant="contained" type="submit">Add New Recipe</Button>
 
-          {ingredients.map((index) => (
-            // <Box>
-            //   <TextField key={`${index}-ingredient`} label="Ingredient Name" value={newRecipe.ingredientList[index].ingredient_name} sx={{ margin: "10px" }}></TextField>
-            //   <TextField key={`${index}-quantity`} label="Quantity" value={newRecipe.ingredientList[index].amount} sx={{ margin: "10px" }}></TextField>
-            //   <TextField key={`${index}-unit`} label="Unit" value={newRecipe.ingredientList[index].unit} sx={{ margin: "10px" }}></TextField>
-            // </Box>
+          {ingredients.map((ingredient, index) => (
             <Box>
-              <TextField key={`${index}-ingredient`} label="Ingredient Name" sx={{ margin: "10px" }}></TextField>
-              <TextField key={`${index}-quantity`} label="Quantity" sx={{ margin: "10px" }}></TextField>
-              <TextField key={`${index}-unit`} label="Unit" sx={{ margin: "10px" }}></TextField>
+              <TextField key={`${index}-ingredient`} label="Ingredient Name" value={newRecipe.ingredientList[index].ingredient_name} sx={{ margin: "10px" }}></TextField>
+              <TextField key={`${index}-quantity`} label="Quantity" value={newRecipe.ingredientList[index].amount} sx={{ margin: "10px" }}></TextField>
+              <TextField key={`${index}-unit`} label="Unit" value={newRecipe.ingredientList[index].unit} sx={{ margin: "10px" }}></TextField>
             </Box>
+            // <Box>
+            //   <TextField key={`${index}-ingredient`} label="Ingredient Name" sx={{ margin: "10px" }}></TextField>
+            //   <TextField key={`${index}-quantity`} label="Quantity" sx={{ margin: "10px" }}></TextField>
+            //   <TextField key={`${index}-unit`} label="Unit" sx={{ margin: "10px" }}></TextField>
+            // </Box>
           ))}
         </form>
       </Box>
