@@ -94,6 +94,7 @@ generationController.handleUserData = (req, res, next) => {
         for (let l = count; l >= 0; l--){
             let i = mainMeals.length;
             let randomNum = Math.floor(Math.random() * i);
+            
             if (mainMeals[randomNum].recipe_type === 'Main Dish'){
                 for (let j = vegtables.length - 1; j >= 0; j--){
                     let vegtablesRandomNum = Math.floor(Math.random() * j);

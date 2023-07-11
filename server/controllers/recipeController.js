@@ -15,6 +15,7 @@ const recipeController = {};
 recipeController.getRecipes = async (req, res, next) => {
 
     const userID = req.session.user_id; 
+    console.log(userID);
 
     try {
         // query all recipes associated with the signed in user 
@@ -66,7 +67,7 @@ recipeController.postRecipe = async (req, res, next) => {
         const ingredients = input.ingredientList; 
 
         // add the recipe to the recipe table
-        const recipeQuery = `INSERT INTO recipes (recipe_name, recipe_type, user_id) VALUES ('${input.recipe_name}', '${input.recipe_type}', 1) RETURNING *;`;
+        const recipeQuery = `INSERT INTO recipes (recipe_name, recipe_type, user_id) VALUES ('${input.recipe_name}', '${input.recipe_type}', ${req.session.user_id}) RETURNING *;`;
         const recipeResult = await db.query(recipeQuery)
         // to ensure the recipe is related to the the row postings in the ingredient table 
         const recipeID = recipeResult.rows[0].recipe_id;
