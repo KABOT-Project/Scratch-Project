@@ -85,9 +85,14 @@ const Recipes = () => {
       // useEffect to rerender page to show new recipe
 
     // e.preventDefault();
-
-    const requestData = newRecipe;
-    console.log(requestData);
+    const updatedRecipe = {
+      ...newRecipe,
+      ingredientList: newRecipe.ingredientList.slice(0, newRecipe.ingredientList.length - 1)
+    };
+    
+    
+    // const requestData = newRecipe;
+    // console.log(requestData);
   
     fetch('/api/recipes', {
       method: 'POST',
@@ -95,7 +100,7 @@ const Recipes = () => {
         'Content-Type': 'application/json',
         // 'Authorization': 'Bearer your_token_here',
       },
-      body: JSON.stringify(requestData),
+      body: JSON.stringify(updatedRecipe),
     })
       .then(response => {
         if (response.ok){
