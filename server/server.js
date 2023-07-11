@@ -1,12 +1,24 @@
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const router = require('./routes/routes');
 
 const PORT = 3000;
 
 const app = express();
+
+const mongoURI = 'mongodb+srv://thomaskpappas:1a0ZIDIO5ZNfDM3H@scratch-project.d18n579.mongodb.net/';
+
+mongoose.connect(mongoURI, err => {
+  if (err) {
+    console.error('MongoDB connection error:', err);
+  } else {
+    console.log('Connected to MongoDB Atlas');
+  }
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,7 +33,7 @@ const sessionConfig = {
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
   user_id: ""
 }
-
+ 
 app.use(session(sessionConfig))
 // setup session functionality 
 // app.use(
