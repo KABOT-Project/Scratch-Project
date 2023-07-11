@@ -39,7 +39,7 @@ router.post('/homepage', generationController.getRecipes, generationController.g
 });
 
 // route handler to render recipe generation if user already generated a set
-router.get('/homage'), generationController.fetchCreatedData, (req, res) => {
+router.get('/hompage'), generationController.fetchCreatedData, (req, res) => {
   console.log('/homepage GET request for generationController.fetchCreatedData has fired');
   res.status(200).json(res.locals.data);
 }

@@ -37,9 +37,8 @@
         "express": "^4.13.4",
         "express-session": "^1.17.3",
         "html-webpack-plugin": "^5.5.3",
-        "mocha": "^2.4.5",
+        "mocha": "^10.2.0",
         "mongoose": "^6.11.2",
-        "nodemon": "^1.8.1",
         "pg": "^8.11.1",
         "pg-promise": "^11.5.0",
         "react": "^18.2.0",
@@ -51,7 +50,7 @@
         "redis": "^2.4.2",
         "sinon": "^1.17.3",
         "style-loader": "^3.3.3",
-        "supertest": "^1.1.0"
+        "supertest": "^6.3.3"
     },
     "devDependencies": {
         "@babel/core": "^7.1.2",
@@ -66,7 +65,7 @@
         "eslint-plugin-react": "^7.21.5",
         "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.5.0",
-        "nodemon": "^1.18.9",
+        "nodemon": "^3.0.1",
         "style-loader": "^3.3.1",
         "webpack": "^5.64.1",
         "webpack-cli": "^4.9.1",

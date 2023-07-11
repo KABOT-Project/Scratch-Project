@@ -16,31 +16,51 @@ const Recipes = () => {
   // hook for submitting new recipe to DB
   const [newRecipe, addNewRecipe] = useState({ recipe_name: '', recipe_type: '', ingredientList: [{ ingredient_name: '', amount: '', unit: '' }] });
 
-  // user recipes will be rendered to page when page is loaded
-  useEffect(async () => {
-    // // dummy data:
-    // let response = ['Pasta', 'Burger', 'Ice Cream', 'Seafood'];
-    try {
-      // GET request to grab current users recipes
-      const response = await fetch('/api/recipes', {
-        method: 'GET',
-        headers: {
-          credentials: 'same-origin'
-        }
-      })
-      // convert received data from server from JSON
-      const data = await response.json();
-      // if response received is okay
-      if (response.ok){
-        // invoke getRecipes, passing in received JS data. This should render recipes to page
-        getRecipes(data);
-      }
-    // if GET request fails
-    } catch (error) {
-      // console log error
-      console.log(error);
-    }
-  }, []);
+  // update newRecipe state when recipe textfields edited
+  const handleRecipeChange = (e) => {
+    addNewRecipe((newRecipe) => ({
+      ...newRecipe,
+    [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleIngredientChange = (e, index) => {
+    const { name, value } = e.target;
+    // const index = e.target.getAttribute("index");
+    
+    addNewRecipe((newRecipe) => ({
+      ...newRecipe,
+      ingredientList: newRecipe.ingredientList.map((ingredient, i) =>
+        i === index ? { ...ingredient, [name]: value } : ingredient
+      ),
+    }));
+  };
+
+  // // user recipes will be rendered to page when page is loaded
+  // useEffect(async () => {
+  //   // // dummy data:
+  //   // let response = ['Pasta', 'Burger', 'Ice Cream', 'Seafood'];
+  //   try {
+  //     // GET request to grab current users recipes
+  //     const response = await fetch('/api/recipes', {
+  //       method: 'GET',
+  //       headers: {
+  //         credentials: 'same-origin'
+  //       }
+  //     })
+  //     // convert received data from server from JSON
+  //     const data = await response.json();
+  //     // if response received is okay
+  //     if (response.ok){
+  //       // invoke getRecipes, passing in received JS data. This should render recipes to page
+  //       getRecipes(data);
+  //     }
+  //   // if GET request fails
+  //   } catch (error) {
+  //     // console log error
+  //     console.log(error);
+  //   }
+  // }, []);
 
   // function to add new ingredient input
   const handleNewIngredient = () => {
@@ -60,13 +80,34 @@ const Recipes = () => {
   const handleNewRecipe = () => {
     // take newRecipe object and format into format expected by BE
 
-    // post
-
     // recipe that was added is sent back in response
       // some sort of text saying "X recipe" was added!
       // useEffect to rerender page to show new recipe
 
-  }
+    // e.preventDefault();
+
+    const requestData = newRecipe;
+    console.log(requestData);
+  
+    fetch('/api/recipes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer your_token_here',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then(response => {
+        if (response.ok){
+          console.log(response);
+          // update state? this should return the newly created recipe
+        }
+      })
+      .catch(error => {
+        if (error) console.log(error);
+      })
+    };
+
 
   return ( 
     <Box>
@@ -80,16 +121,16 @@ const Recipes = () => {
       <Box>
         <h1>Add a New Recipe</h1>
         <form onSubmit={handleNewRecipe}>
-          <TextField label="Recipe Name" value={newRecipe.recipe_name} sx={{ margin: "10px" }}></TextField>
-          <TextField label="Recipe Type" value={newRecipe.recipe_type} sx={{ margin: "10px" }}></TextField>
+          <TextField name='recipe_name' label="Recipe Name" value={newRecipe.recipe_name} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField>
+          <TextField name='recipe_type' label="Recipe Type" value={newRecipe.recipe_type} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField>
           <Button variant="contained" onClick={handleNewIngredient}>Add Ingredient</Button>
           <Button variant="contained" type="submit">Add New Recipe</Button>
 
           {ingredients.map((ingredient, index) => (
             <Box>
-              <TextField key={`${index}-ingredient`} label="Ingredient Name" value={newRecipe.ingredientList[index].ingredient_name} sx={{ margin: "10px" }}></TextField>
-              <TextField key={`${index}-quantity`} label="Quantity" value={newRecipe.ingredientList[index].amount} sx={{ margin: "10px" }}></TextField>
-              <TextField key={`${index}-unit`} label="Unit" value={newRecipe.ingredientList[index].unit} sx={{ margin: "10px" }}></TextField>
+              <TextField name='ingredient_name' index={index} key={`${index}-ingredient`} label="Ingredient Name" value={newRecipe.ingredientList[index].ingredient_name} onChange={(e) => handleIngredientChange(e, index)} sx={{ margin: "10px" }}></TextField>
+              <TextField name='amount' index={index} key={`${index}-quantity`} label="Quantity" type="number" value={newRecipe.ingredientList[index].amount} onChange={(e) => handleIngredientChange(e, index)} sx={{ margin: "10px" }}></TextField>
+              <TextField name='unit' index ={index} key={`${index}-unit`} label="Unit" value={newRecipe.ingredientList[index].unit} onChange={(e) => handleIngredientChange(e, index)} sx={{ margin: "10px" }}></TextField>
             </Box>
             // <Box>
             //   <TextField key={`${index}-ingredient`} label="Ingredient Name" sx={{ margin: "10px" }}></TextField>
