@@ -1,4 +1,5 @@
 const db = require('../models/models'); 
+const models = require('../models/mongoModels');
 
 const generationController = {};
 
@@ -51,13 +52,13 @@ generationController.getIngredients = async (req, res, next) => {
 
 // {
 //     "weekDays" : {
-//         "Monday": "True",
-//         "Tuesday": "True",
-//         "Wednesday": "True",
-//         "Thursday": "True",
-//         "Friday": "True",
-//         "Saturday": "True",
-//         "Sunday": "True"
+//         "Monday": true,
+//         "Tuesday": true,
+//         "Wednesday": true,
+//         "Thursday": true,
+//         "Friday": true,
+//         "Saturday": false,
+//         "Sunday": false
 //     },
 //     "weeks": 2
 // }
@@ -77,7 +78,7 @@ generationController.handleUserData = (req, res, next) => {
         };
         count *= input.weeks;
 
-        // filter the raw data for meal type
+        // filter the raw data for meal type and copy the full data set
         let mainMeals = res.locals.data.filter(obj => obj.recipe_type === 'Main Dish' || obj.recipe_type === 'Full Meal');
         const copyMainMeals = mainMeals.slice();
         let vegtables = res.locals.data.filter(obj=> obj.recipe_type === 'Vegtable');
@@ -85,37 +86,39 @@ generationController.handleUserData = (req, res, next) => {
         let sides = res.locals.data.filter(obj=> obj.recipe_type === 'Side');
         const copySides = sides.slice();
 
-        // declare a return array that will contain the randomized meals
+        // declare a return array that will contain the randomized meals and a raw ingredient array to be parsed and reduced
         const meals = [];
+        const rawIngredientList = [];
 
-        // *** add the ingredient list for anything this loop touches to be appended to a grocery list array ***
-
-        // randomizes meals and adds sides to main dishes 
+        // randomizes meals and adds sides to main dishes and appends ingredients to rawIngredientList array
         for (let l = count; l >= 0; l--){
             let i = mainMeals.length;
             let randomNum = Math.floor(Math.random() * i);
             if (mainMeals[randomNum].recipe_type === 'Main Dish'){
                 for (let j = vegtables.length - 1; j >= 0; j--){
                     let vegtablesRandomNum = Math.floor(Math.random() * j);
+                    rawIngredientList.push(vegtables[vegtablesRandomNum].ingredientList);
                     mainMeals[randomNum].vegtable = vegtables.splice(vegtablesRandomNum, 1)[0];
                     if (vegtables.length === 0){
-                        vegtables = copyVegtables;
+                        vegtables = copyVegtables.slice();
                     };
                     break
                 };
                 for (let k = sides.length - 1; k >= 0; k--){
                     let sidesRandomNum = Math.floor(Math.random() * k);
+                    rawIngredientList.push(sides[sidesRandomNum].ingredientList);
                     mainMeals[randomNum].side = sides.splice(sidesRandomNum, 1)[0];
                     if (sides.length === 0){
-                        sides = copySides;
+                        sides = copySides.slice();
                     };
                     break
                 };
             }
-            // *** need to add functionality of not repeating a recent meal and populating all the days if there are not enough meals ***
+            // *** need to add functionality of not repeating a recent meal  although currently there is about a 1/n**2 chance of a meal occurring back to back which will only happen once all the meals have been scheduled at least once ***
+            rawIngredientList.push(mainMeals[randomNum].ingredientList);
             meals.push(mainMeals.splice(randomNum, 1)[0]);
             if (mainMeals.length === 0){
-                mainMeals = copyMainMeals;
+                mainMeals = copyMainMeals.slice();;
             }
         };
 
@@ -142,10 +145,26 @@ generationController.handleUserData = (req, res, next) => {
             };
         };
 
-        // console.log(responseObj);
         res.locals.data = responseObj;
 
-        // *** grocery list generation goes here to be added to res.locals.groceryList ***
+        // flatten the ingredients to easily parse and reduce data
+        const flatRawIngredientList = rawIngredientList.flat(Infinity);
+
+        // reduce overlapping data
+        const reducedData = Object.values(flatRawIngredientList.reduce((result, item) => {
+            delete item.ingredients_id;
+            const key = item.ingredient_name + item.unit;
+          
+            if (result[key]) {
+              result[key].amount += Number(item.amount);
+            } else {
+              result[key] = { ...item }; 
+            }
+          
+            return result;
+          }, {}));
+          
+        res.locals.groceryList = reducedData;
 
         return next();
     }
@@ -156,6 +175,72 @@ generationController.handleUserData = (req, res, next) => {
             message: {error: 'Error occurred in generationController.handleUserData middleware'}
         })
     }
+};
+
+generationController.handleLoginData = (req, res, next) => {
+
+    const responseObj = res.locals.data;
+    const reducedData = res.locals.groceryList;
+
+    // construct the mongoDB object
+    const dbLoginData = {
+        user_id: req.session.user_id,
+        responseObj,
+        reducedData
+    }
+
+    // first search if the user already has a generated recipe schedule
+    models.UserData.findOne({user_id: dbLoginData.user_id })
+        .then(user => {
+            if (user) {
+                // if they do delete, because the user is currently trying to render a new schedule
+                user.delete()
+                .then(() => {
+                    console.log('User deleted');
+                  })
+                  .catch(error => {
+                    console.error('Error deleting user:', error);
+                  });
+            }; 
+        })
+        .catch(error => {
+            return next({
+                log: 'an error occured in finding a users recipes',
+                status: 400,
+                message: 'an error occurred in finding a users recipes'
+              });
+        });
+    
+    // save the new randomized schedule in the mongoDB for future login retrieval 
+    models.UserData.create(dbLoginData)
+        .then(data => {
+            console.log('new instance of user created')
+            return next();
+        })
+        .catch(error => {
+            return next({
+                log: 'an error occured in creating a recipe instance',
+                status: 400,
+                message: 'an error occurred in adding dbLoginData to mongoDB'
+              });
+        });
+};
+
+generationController.fetchCreatedData = (req, res, next) => {
+
+    models.UserData.findOne({user_id: req.session.user_id })
+        .then(data => {
+            console.log(data);
+            res.locals.data = data;
+            return next();
+        })
+        .catch(error => {
+            return next({
+                log: 'an error occured in finding a users recipes',
+                status: 400,
+                message: 'an error occurred in finding a users recipes'
+              });
+        });
 };
 
 module.exports = generationController;
