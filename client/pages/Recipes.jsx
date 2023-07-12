@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Recipe from '../components/Recipe.jsx';
-import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 
 const Recipes = () => {
   // hook for rendering user recipes
@@ -36,30 +36,33 @@ const Recipes = () => {
     }));
   };
 
-  // // user recipes will be rendered to page when page is loaded
-  useEffect(async () => {
-    // // dummy data:
-    // let response = ['Pasta', 'Burger', 'Ice Cream', 'Seafood'];
-    try {
-      // GET request to grab current users recipes
-      const response = await fetch('/api/recipes', {
-        method: 'GET',
-        headers: {
-          credentials: 'same-origin'
+  // user recipes will be rendered to page when page is loaded
+  useEffect(() => {
+    // define asynchronous function fetchData
+    async function fetchData() {
+      try {
+        // GET request to grab current users recipes
+        const response = await fetch('/api/recipes', {
+          method: 'GET',
+          headers: {
+            credentials: 'same-origin'
+          }
+        })
+        // convert received data from server from JSON
+        const data = await response.json();
+        // if response received is okay
+        if (response.ok){
+          // invoke getRecipes, passing in received JS data. This should render recipes to page
+          getRecipes(data);
         }
-      })
-      // convert received data from server from JSON
-      const data = await response.json();
-      // if response received is okay
-      if (response.ok){
-        // invoke getRecipes, passing in received JS data. This should render recipes to page
-        getRecipes(data);
+      // if GET request fails
+      } catch (error) {
+        // console log error
+        console.log(error);
       }
-    // if GET request fails
-    } catch (error) {
-      // console log error
-      console.log(error);
     }
+    // invoke fetchData
+    fetchData();
   }, []);
 
   // function to add new ingredient input
@@ -106,8 +109,6 @@ const Recipes = () => {
 
   return ( 
     <Box>
-  
-       
       <Box>
         <h1>Add a New Recipe</h1>
         <form onSubmit={handleNewRecipe}>
@@ -122,25 +123,23 @@ const Recipes = () => {
               <TextField name='amount' index={index} key={`${index}-quantity`} label="Quantity" type="number" value={newRecipe.ingredientList[index].amount} onChange={(e) => handleIngredientChange(e, index)} sx={{ margin: "10px" }}></TextField>
               <TextField name='unit' index ={index} key={`${index}-unit`} label="Unit" value={newRecipe.ingredientList[index].unit} onChange={(e) => handleIngredientChange(e, index)} sx={{ margin: "10px" }}></TextField>
             </Box>
-            // <Box>
-            //   <TextField key={`${index}-ingredient`} label="Ingredient Name" sx={{ margin: "10px" }}></TextField>
-            //   <TextField key={`${index}-quantity`} label="Quantity" sx={{ margin: "10px" }}></TextField>
-            //   <TextField key={`${index}-unit`} label="Unit" sx={{ margin: "10px" }}></TextField>
-            // </Box>
           ))}
         </form>
       </Box>
       <Box>
         <h1>Recipes</h1>
+        <Grid container spacing={2}>
           {recipes.map((recipe, index) => (
-            <Recipe key={index} name={recipe.recipe_name} />
+            <Grid item xs={4} key={index}>
+              <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '200px'}}>
+                <Recipe key={index} name={recipe.recipe_name} />
+              </Card>
+            </Grid>
           ))}
+        </Grid>
       </Box>
     </Box>
   );
 }
 
 export default Recipes;
-
-// Query the DB for users existing recipes - get this back in an array
-// map each recipe to a Recipe component, render each component on the page
