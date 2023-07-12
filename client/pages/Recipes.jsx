@@ -93,6 +93,7 @@ const Recipes = () => {
         // 'Authorization': 'Bearer your_token_here',
       },
       body: JSON.stringify(requestData),
+      credentials: "include",
     })
       .then(response => {
         if (response.ok){

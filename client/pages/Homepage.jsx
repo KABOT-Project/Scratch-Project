@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import React, { useState, useEffect } from 'react';
 import Week from '../components/Week';
 import Grocerylist from '../components/Grocerylist';
+import { useNavigate } from "react-router-dom";
+const axios = require('axios');
 
 const Homepage = () => {
 
@@ -34,9 +36,22 @@ const Homepage = () => {
     
   }, []);
 
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await axios
+       .get("http://localhost:3000/api/logout")
+       .then((response) => {
+        console.log(response);
+        navigate("/");
+       })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div>
       <h1>Homepage</h1>
+      <Button variant="outlined" onClick={logout}>Logout</Button>
       <Box>
         <input type="checkbox" id="checkbox1" name="checkbox1"></input>
         <label for="checkbox1">Monday</label>

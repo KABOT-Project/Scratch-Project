@@ -2,23 +2,28 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const { OAuth2Client } = require('google-auth-library');
+const cors = require('cors');
 const MongoStore = require('connect-mongo');
-
+const cookieParser = require('cookie-parser');
 const router = require('./routes/routes');
-
 const PORT = 3000;
+require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
+app.use(cookieParser());
+
 const mongoURI = 'mongodb+srv://thomaskpappas:1a0ZIDIO5ZNfDM3H@scratch-project.d18n579.mongodb.net/';
 
-mongoose.connect(mongoURI, err => {
-  if (err) {
-    console.error('MongoDB connection error:', err);
-  } else {
-    console.log('Connected to MongoDB Atlas');
-  }
-});
+// mongoose.connect(mongoURI, err => {
+//   if (err) {
+//     console.error('MongoDB connection error:', err);
+//   } else {
+//     console.log('Connected to MongoDB Atlas');
+//   }
+// });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,29 +36,35 @@ const sessionConfig = {
   saveUnitialized: false,
   resave: false,  
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
-  user_id: ""
+  user_id: "",
+  authentication: false
 }
- 
-app.use(session(sessionConfig))
-// setup session functionality 
-// app.use(
-//   session({
-//     secret: 'tkpaps', 
-//     resave: false,
-//     saveUninitialized: false,
-//     store: MongoStore.create({
-//       mongoUrl: mongoURI, 
-//     }),
-//     cookie: {
-//       maxAge: 1000 * 60 * 60 * 24, 
-//     },
-//   })
-// );
 
-// app.use((req, res, next) => {
-//   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-//   next();
-// });
+app.use(session(sessionConfig))
+
+//Google oauth
+const oAuth2Client = new OAuth2Client(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  'postmessage',
+);
+
+//google oauth; after the post request, the user then receives an access_taken (talk with google APIs), refresh token, and id_token (JWT contains all user's info)
+app.post('/auth/google', async (req, res) => {
+  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+  console.log(tokens);
+  res.json(tokens);
+});
+
+app.post('/auth/google/refresh-token', async (req, res) => {
+  const user = new UserRefreshClient(
+    clientId,
+    clientSecret,
+    req.body.refreshToken,
+  );
+  const { credentials } = await user.refreshAccessToken(); // optain new tokens
+  res.json(credentials);
+})
 
 // serve static pages
 app.use('/client', express.static(path.resolve(__dirname, '../client')));
