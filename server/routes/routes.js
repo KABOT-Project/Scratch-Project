@@ -35,7 +35,7 @@ router.post('/recipes', recipeController.postRecipe, (req, res) => {
 // *** switch out this middleware after testing - DRY ***
 // route handler to retrieve user recipes for the homepage and parse data for randomized week with additional parameters 
 router.post('/homepage', generationController.getRecipes, generationController.getIngredients, generationController.handleUserData, generationController.handleLoginData, (req, res) => {
-    console.log('/homepage GET request for recipeController.getRecipes, recipeController.getIngredients & gernationController.handleUserData has fired');
+    console.log('/homepage POST request for recipeController.getRecipes, recipeController.getIngredients & gernationController.handleUserData has fired');
     res.status(200).json(res.locals);
 });
 
@@ -43,7 +43,7 @@ router.post('/homepage', generationController.getRecipes, generationController.g
 router.get('/homepage', sessionController.isLoggedIn, generationController.fetchCreatedData, (req, res) => {
   console.log('/homepage GET request for generationController.fetchCreatedData has fired');
   res.status(200).json(res.locals.data);
-});
+}));
 
 //userController -> verifyUser, setSSIDcookie, start session
 router.post('/login', userController.verifyUser, cookieController.setSSIDCookie, sessionController.startSession, (req, res) => {
