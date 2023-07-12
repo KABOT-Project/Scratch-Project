@@ -229,6 +229,8 @@ generationController.handleLoginData = (req, res, next) => {
 
 generationController.fetchCreatedData = (req, res, next) => {
 
+    console.log('this line hit');
+
     models.UserData.findOne({user_id: req.session.user_id })
         .then(data => {
             console.log(data);
