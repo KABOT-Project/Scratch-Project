@@ -20,6 +20,13 @@ router.post('/signup', userController.createUser, cookieController.setSSIDCookie
     res.sendStatus(200);
   });
 
+//google oauth route handler
+router.post('/googauth', userController.googDb, cookieController.setSSIDCookie, (req, res) => {
+  //googDb determines whether user exists; if they do -> next, don't -> create user in database
+  console.log("Post request for /googauth");
+  res.sendStatus(200);
+})
+
 // route handler to get recipes for recipe page
 router.get('/recipes', sessionController.isLoggedIn, recipeController.getRecipes, recipeController.getIngredients, (req, res) => {
     console.log('/recipes GET request for recipeController.getRecipes & recipeController.getIngredients has fired');
@@ -43,7 +50,7 @@ router.post('/homepage', generationController.getRecipes, generationController.g
 router.get('/homepage', sessionController.isLoggedIn, generationController.fetchCreatedData, (req, res) => {
   console.log('/homepage GET request for generationController.fetchCreatedData has fired');
   res.status(200).json(res.locals.data);
-}));
+});
 
 //userController -> verifyUser, setSSIDcookie, start session
 router.post('/login', userController.verifyUser, cookieController.setSSIDCookie, sessionController.startSession, (req, res) => {
@@ -52,5 +59,11 @@ router.post('/login', userController.verifyUser, cookieController.setSSIDCookie,
   res.sendStatus(200);
 });
 
+//logout user
+router.get('/logout', (req, res) => {
+  console.log('/logout route hit');
+  req.session.destroy();
+  res.send("Session destroyed.")
+})
 
 module.exports = router; 

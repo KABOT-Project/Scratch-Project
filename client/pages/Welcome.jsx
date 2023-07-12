@@ -33,13 +33,23 @@ const login = useGoogleLogin({
       //grab info from id token; email, given_name, family_name
       const idToken = tokens.data.id_token;
       const decodedToken = jwt_decode(idToken);
+      // res.locals.decodedToken = decodedToken; 
+      // console.log(res.locals.decodedToken);
+
+      await axios
+        .post('http://localhost:3000/api/googauth/', {decodedToken})
+        .then(response => {
+          console.log(response);
+          window.location.href = '/homepage';
+        })
+        .catch((err) => console.log(err));
       //send user to a google auth page? 
       //if email exists in the database, send to a route that will redirect to a page. 
       //if email does NOT exist in the database, 
-      console.log(decodedToken);
-      console.log(decodedToken.email);
-      console.log(decodedToken.given_name);
-      console.log(decodedToken.family_name);
+      // console.log(decodedToken);
+      // console.log(decodedToken.email);
+      // console.log(decodedToken.given_name);
+      // console.log(decodedToken.family_name);
       //conditional - does this email already exist in the database? does the password need to be stored? 
       //users database -> username, password, first_name, last_name, email; 
       //check the emails -> if the email already is in use, redirect? if username/email does not exist -> create an account in the database

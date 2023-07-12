@@ -37,7 +37,7 @@ const sessionConfig = {
   resave: false,  
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
   user_id: "",
-  authentication,
+  authentication: false
 }
 
 app.use(session(sessionConfig))
