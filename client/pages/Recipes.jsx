@@ -14,7 +14,7 @@ const Recipes = () => {
   const [ingredients, addNewIngredient] = useState([]);
 
   // hook for submitting new recipe to DB
-  const [newRecipe, addNewRecipe] = useState({ recipe_name: '', recipe_type: '', ingredientList: [{ ingredient_name: '', amount: '', unit: '' }] });
+  const [newRecipe, addNewRecipe] = useState({ recipe_name: '', recipe_type: '', ingredientList: [] });
 
   // update newRecipe state when recipe textfields edited
   const handleRecipeChange = (e) => {
@@ -37,30 +37,30 @@ const Recipes = () => {
   };
 
   // // user recipes will be rendered to page when page is loaded
-  // useEffect(async () => {
-  //   // // dummy data:
-  //   // let response = ['Pasta', 'Burger', 'Ice Cream', 'Seafood'];
-  //   try {
-  //     // GET request to grab current users recipes
-  //     const response = await fetch('/api/recipes', {
-  //       method: 'GET',
-  //       headers: {
-  //         credentials: 'same-origin'
-  //       }
-  //     })
-  //     // convert received data from server from JSON
-  //     const data = await response.json();
-  //     // if response received is okay
-  //     if (response.ok){
-  //       // invoke getRecipes, passing in received JS data. This should render recipes to page
-  //       getRecipes(data);
-  //     }
-  //   // if GET request fails
-  //   } catch (error) {
-  //     // console log error
-  //     console.log(error);
-  //   }
-  // }, []);
+  useEffect(async () => {
+    // // dummy data:
+    // let response = ['Pasta', 'Burger', 'Ice Cream', 'Seafood'];
+    try {
+      // GET request to grab current users recipes
+      const response = await fetch('/api/recipes', {
+        method: 'GET',
+        headers: {
+          credentials: 'same-origin'
+        }
+      })
+      // convert received data from server from JSON
+      const data = await response.json();
+      // if response received is okay
+      if (response.ok){
+        // invoke getRecipes, passing in received JS data. This should render recipes to page
+        getRecipes(data);
+      }
+    // if GET request fails
+    } catch (error) {
+      // console log error
+      console.log(error);
+    }
+  }, []);
 
   // function to add new ingredient input
   const handleNewIngredient = () => {
@@ -83,16 +83,8 @@ const Recipes = () => {
     // recipe that was added is sent back in response
       // some sort of text saying "X recipe" was added!
       // useEffect to rerender page to show new recipe
-
-    // e.preventDefault();
-    const updatedRecipe = {
-      ...newRecipe,
-      ingredientList: newRecipe.ingredientList.slice(0, newRecipe.ingredientList.length - 1)
-    };
     
-    
-    // const requestData = newRecipe;
-    // console.log(requestData);
+    const requestData = newRecipe;
   
     fetch('/api/recipes', {
       method: 'POST',
@@ -100,12 +92,11 @@ const Recipes = () => {
         'Content-Type': 'application/json',
         // 'Authorization': 'Bearer your_token_here',
       },
-      body: JSON.stringify(updatedRecipe),
+      body: JSON.stringify(requestData),
     })
       .then(response => {
         if (response.ok){
           console.log(response);
-          // update state? this should return the newly created recipe
         }
       })
       .catch(error => {
@@ -113,15 +104,9 @@ const Recipes = () => {
       })
     };
 
-
   return ( 
     <Box>
-      <Box>
-        <h1>Recipes</h1>
-          {recipes.map((recipe, index) => (
-            <Recipe key={index} name={recipe.recipe_name} />
-          ))}
-      </Box>
+  
        
       <Box>
         <h1>Add a New Recipe</h1>
@@ -144,6 +129,12 @@ const Recipes = () => {
             // </Box>
           ))}
         </form>
+      </Box>
+      <Box>
+        <h1>Recipes</h1>
+          {recipes.map((recipe, index) => (
+            <Recipe key={index} name={recipe.recipe_name} />
+          ))}
       </Box>
     </Box>
   );
