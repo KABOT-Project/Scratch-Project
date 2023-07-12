@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 
-
 const Welcome = () => {
 
   const navigate = useNavigate(); 
@@ -34,6 +33,9 @@ const login = useGoogleLogin({
       //grab info from id token; email, given_name, family_name
       const idToken = tokens.data.id_token;
       const decodedToken = jwt_decode(idToken);
+      //send user to a google auth page? 
+      //if email exists in the database, send to a route that will redirect to a page. 
+      //if email does NOT exist in the database, 
       console.log(decodedToken);
       console.log(decodedToken.email);
       console.log(decodedToken.given_name);

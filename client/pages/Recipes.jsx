@@ -101,6 +101,7 @@ const Recipes = () => {
         // 'Authorization': 'Bearer your_token_here',
       },
       body: JSON.stringify(updatedRecipe),
+      credentials: "include",
     })
       .then(response => {
         if (response.ok){

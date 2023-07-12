@@ -18,7 +18,9 @@ userController.createUser = async (req, res, next) => {
         const result = await db.query(query, values); 
         const user_id = result.rows[0].user_id; 
         res.locals.user_id = user_id;
-        req.session.user_id = user_id; 
+        res.locals.username = username; 
+        // req.session.user_id = user_id; 
+        // req.session.username = username; 
         return next();
     }
     catch (error) {
@@ -53,7 +55,6 @@ userController.verifyUser = async (req, res, next) => {
         const resultId = await db.query(queryId, value);
         const user_id = resultId.rows[0].user_id; 
         res.locals.user_id = user_id;
-        req.session.user_id = user_id; 
         return next();
     }
     else {
