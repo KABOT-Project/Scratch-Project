@@ -4,73 +4,78 @@
     "description": "Meal Planner",
     "main": "index.js",
     "scripts": {
-      "start": "node server/server.js",
-      "dev": "NODE_ENV=development concurrently \"nodemon --watch server ./server/server.js\" \"webpack serve --open\"",
-      "build": "NODE_ENV=production webpack",
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node server/server.js",
+        "dev": "NODE_ENV=development concurrently \"nodemon --watch server ./server/server.js\" \"webpack serve --open\"",
+        "build": "NODE_ENV=production webpack",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
-      "type": "git",
-      "url": "https://github.com/KABOT-Project/Scratch-Project.git"
+        "type": "git",
+        "url": "https://github.com/KABOT-Project/Scratch-Project.git"
     },
     "author": "KABOT",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/KABOT-Project/Scratch-Project/issues"
+        "url": "https://github.com/KABOT-Project/Scratch-Project/issues"
     },
     "homepage": "https://github.com/KABOT-Project/Scratch-Project#readme",
     "dependencies": {
-      "@babel/core": "^7.22.5",
-      "@babel/preset-env": "^7.22.5",
-      "@babel/preset-react": "^7.22.5",
-      "babel-loader": "^9.1.2",
-      "bcryptjs": "^2.3.0",
-      "chai": "^3.5.0",
-      "connect-mongo": "^5.0.0",
-      "cookie-parser": "^1.4.1",
-      "css-loader": "^6.8.1",
-      "express": "^4.13.4",
-      "express-session": "^1.17.3",
-      "html-webpack-plugin": "^5.5.3",
-      "mocha": "^2.4.5",
-      "mongoose": "^6.11.2",
-      "nodemon": "^1.8.1",
-      "react": "^18.2.0",
-      "react-canvas-confetti": "^1.4.0",
-      "react-confetti": "^6.1.0",
-      "react-dom": "^18.2.0",
-      "react-router-dom": "^5.3",
-      "react-use": "^17.4.0",
-      "redis": "^2.4.2",
-      "sinon": "^1.17.3",
-      "style-loader": "^3.3.3",
-      "supertest": "^1.1.0"
+        "@babel/core": "^7.22.5",
+        "@babel/preset-env": "^7.22.5",
+        "@babel/preset-react": "^7.22.5",
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.13.7",
+        "babel-loader": "^9.1.2",
+        "bcrypt": "^5.1.0",
+        "bcryptjs": "^2.3.0",
+        "chai": "^3.5.0",
+        "connect-mongo": "^5.0.0",
+        "connect-pg-simple": "^9.0.0",
+        "cookie-parser": "^1.4.1",
+        "css-loader": "^6.8.1",
+        "express": "^4.13.4",
+        "express-session": "^1.17.3",
+        "html-webpack-plugin": "^5.5.3",
+        "mocha": "^10.2.0",
+        "mongoose": "^6.11.2",
+        "pg": "^8.11.1",
+        "pg-promise": "^11.5.0",
+        "react": "^18.2.0",
+        "react-canvas-confetti": "^1.4.0",
+        "react-confetti": "^6.1.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.14.0",
+        "react-use": "^17.4.0",
+        "redis": "^2.4.2",
+        "sinon": "^1.17.3",
+        "style-loader": "^3.3.3",
+        "supertest": "^6.3.3"
     },
     "devDependencies": {
-      "@babel/core": "^7.1.2",
-      "@babel/preset-env": "^7.1.0",
-      "@babel/preset-react": "^7.0.0",
-      "ajv": "^8.12.0",
-      "babel-loader": "^8.2.3",
-      "concurrently": "^5.0.0",
-      "cross-env": "^6.0.3",
-      "css-loader": "^6.5.1",
-      "eslint": "^7.17.0",
-      "eslint-plugin-react": "^7.21.5",
-      "file-loader": "^6.2.0",
-      "html-webpack-plugin": "^5.5.0",
-      "nodemon": "^1.18.9",
-      "style-loader": "^3.3.1",
-      "webpack": "^5.64.1",
-      "webpack-cli": "^4.9.1",
-      "webpack-dev-server": "^4.5.0",
-      "webpack-hot-middleware": "^2.24.3"
+        "@babel/core": "^7.1.2",
+        "@babel/preset-env": "^7.1.0",
+        "@babel/preset-react": "^7.0.0",
+        "ajv": "^8.12.0",
+        "babel-loader": "^8.2.3",
+        "concurrently": "^5.0.0",
+        "cross-env": "^6.0.3",
+        "css-loader": "^6.5.1",
+        "eslint": "^7.17.0",
+        "eslint-plugin-react": "^7.21.5",
+        "file-loader": "^6.2.0",
+        "html-webpack-plugin": "^5.5.0",
+        "nodemon": "^3.0.1",
+        "style-loader": "^3.3.1",
+        "webpack": "^5.64.1",
+        "webpack-cli": "^4.9.1",
+        "webpack-dev-server": "^4.5.0",
+        "webpack-hot-middleware": "^2.24.3"
     },
     "nodemonConfig": {
-      "ignore": [
-        "build",
-        "client/"
-      ]
+        "ignore": [
+            "build",
+            "client/"
+        ]
     }
-  }
-  
+}

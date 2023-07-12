@@ -10,42 +10,50 @@ const PORT = 3000;
 
 const app = express();
 
-const mongoURI = 'mongodb+srv://thomaskpappas:9TbWXn8GlVgb7ffk@soloprojectcluster.m9jqswl.mongodb.net/?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://thomaskpappas:1a0ZIDIO5ZNfDM3H@scratch-project.d18n579.mongodb.net/';
 
-// connect to MongoDB and listen on port 3000
 mongoose.connect(mongoURI, err => {
   if (err) {
     console.error('MongoDB connection error:', err);
   } else {
     console.log('Connected to MongoDB Atlas');
-    app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-    });
   }
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const sessionConfig = {
+  store: new (require('connect-pg-simple')(session))({
+    conString: 'postgres://bwkdjkqj:Mc0GUvXKF9M5wNiMDUYKyHvQoDojVdYZ@lallah.db.elephantsql.com/bwkdjkqj'
+  }),
+  secret: 'secret',
+  saveUnitialized: false,
+  resave: false,  
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+  user_id: ""
+}
+ 
+app.use(session(sessionConfig))
 // setup session functionality 
-app.use(
-  session({
-    secret: 'tkpaps', 
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: mongoURI, 
-    }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, 
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: 'tkpaps', 
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({
+//       mongoUrl: mongoURI, 
+//     }),
+//     cookie: {
+//       maxAge: 1000 * 60 * 60 * 24, 
+//     },
+//   })
+// );
 
-app.use((req, res, next) => {
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+//   next();
+// });
 
 // serve static pages
 app.use('/client', express.static(path.resolve(__dirname, '../client')));
@@ -68,5 +76,8 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
+app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+      });
 
 module.exports = app;

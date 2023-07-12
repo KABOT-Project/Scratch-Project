@@ -1,19 +1,21 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
-// import Homepage from './pages/Homepage.jsx';
-// import Login from './pages/Login.jsx';
-// import Signup from './pages/Signup.jsx';
-// import Dashboard from './pages/Dashboard.jsx';
+import Welcome from './pages/Welcome.jsx';
+import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
+import Homepage from './pages/Homepage.jsx';
+import Recipes from './pages/Recipes.jsx';
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Homepage />} />
+        <Route exact path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/recipes" element={<Recipes />} />
       </Routes>
     </>
   );
