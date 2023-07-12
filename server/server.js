@@ -1,8 +1,11 @@
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 const session = require('express-session');
 const { OAuth2Client } = require('google-auth-library');
 const cors = require('cors');
+const MongoStore = require('connect-mongo');
+
 const router = require('./routes/routes');
 const PORT = 3000;
 require('dotenv').config();
@@ -10,6 +13,17 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors());
+
+const mongoURI = 'mongodb+srv://thomaskpappas:1a0ZIDIO5ZNfDM3H@scratch-project.d18n579.mongodb.net/';
+
+mongoose.connect(mongoURI, err => {
+  if (err) {
+    console.error('MongoDB connection error:', err);
+  } else {
+    console.log('Connected to MongoDB Atlas');
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,6 +51,22 @@ app.post('/auth/google', async (req, res) => {
   console.log(tokens);
   res.json(tokens);
 });
+ 
+app.use(session(sessionConfig))
+// setup session functionality 
+// app.use(
+//   session({
+//     secret: 'tkpaps', 
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({
+//       mongoUrl: mongoURI, 
+//     }),
+//     cookie: {
+//       maxAge: 1000 * 60 * 60 * 24, 
+//     },
+//   })
+// );
 
 app.post('/auth/google/refresh-token', async (req, res) => {
   const user = new UserRefreshClient(
