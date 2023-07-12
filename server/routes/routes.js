@@ -115,3 +115,4 @@ router.post('/login', userController.verifyUser, cookieController.setSSIDCookie,
 // });
 
 module.exports = router; 
+module.exports = router; 
