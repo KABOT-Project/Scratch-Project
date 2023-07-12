@@ -1,15 +1,24 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-
+const { OAuth2Client } = require('google-auth-library');
+const cors = require('cors');
 const router = require('./routes/routes');
-
 const PORT = 3000;
+require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//Google oauth
+const oAuth2Client = new OAuth2Client(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  'postmessage',
+);
 
 const sessionConfig = {
   store: new (require('connect-pg-simple')(session))({
@@ -22,26 +31,24 @@ const sessionConfig = {
   user_id: ""
 }
 
-app.use(session(sessionConfig))
-// setup session functionality 
-// app.use(
-//   session({
-//     secret: 'tkpaps', 
-//     resave: false,
-//     saveUninitialized: false,
-//     store: MongoStore.create({
-//       mongoUrl: mongoURI, 
-//     }),
-//     cookie: {
-//       maxAge: 1000 * 60 * 60 * 24, 
-//     },
-//   })
-// );
+//google oauth; after the post request, the user then receives an access_taken (talk with google APIs), refresh token, and id_token (JWT contains all user's info)
+app.post('/auth/google', async (req, res) => {
+  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+  console.log(tokens);
+  res.json(tokens);
+});
 
-// app.use((req, res, next) => {
-//   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-//   next();
-// });
+app.post('/auth/google/refresh-token', async (req, res) => {
+  const user = new UserRefreshClient(
+    clientId,
+    clientSecret,
+    req.body.refreshToken,
+  );
+  const { credentials } = await user.refreshAccessToken(); // optain new tokens
+  res.json(credentials);
+})
+
+app.use(session(sessionConfig))
 
 // serve static pages
 app.use('/client', express.static(path.resolve(__dirname, '../client')));

@@ -1,15 +1,11 @@
-
-
 // const { decodeBase64 } = require('bcryptjs');
 // const pgPromise = require('pg-promise');
 // const pgp = pgPromise();
 const db = require('../models/models');
 const userController = {};
-
 const bcrypt = require('bcryptjs');
-
-// import db from ../db (or wherever)
-// Create user (use postgresql)
+const { OAuth2Client } = require('google-auth-library');
+require('dotenv').config();
 
 userController.createUser = async (req, res, next) => {
     try{
@@ -67,4 +63,14 @@ userController.verifyUser = async (req, res, next) => {
     };
 }
 
+//Google oauth
+// const oAuth2Client = new OAuth2Client(
+//     process.env.CLIENT_ID,
+//     process.env.CLIENT_SECRET,
+//     'postmessage',
+//   );
+
+// userController.googleLogin = async (req, res, next) => {
+    
+// }
 module.exports = userController; 
