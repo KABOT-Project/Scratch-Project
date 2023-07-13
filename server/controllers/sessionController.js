@@ -2,13 +2,13 @@ const sessionController = {};
 const db = require('../models/models');
 // const session = require('express-session');
 
-sessionController.isLoggedIn = (req, res, next) => {
+sessionController.isLoggedIn = async (req, res, next) => {
     //check if user has a cookie with SSID 
     console.log(req.cookies);
     // console.log(req.cookies['SSID']);
     try {
         if (req.session.authentication = true) {
-            next(); 
+            return next(); 
         } else {
             window.location.href = '/welcome'
         }
