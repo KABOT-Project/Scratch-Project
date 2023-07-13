@@ -17,13 +17,13 @@ app.use(cookieParser());
 
 const mongoURI = 'mongodb+srv://thomaskpappas:1a0ZIDIO5ZNfDM3H@scratch-project.d18n579.mongodb.net/';
 
-// mongoose.connect(mongoURI, err => {
-//   if (err) {
-//     console.error('MongoDB connection error:', err);
-//   } else {
-//     console.log('Connected to MongoDB Atlas');
-//   }
-// });
+mongoose.connect(mongoURI, err => {
+  if (err) {
+    console.error('MongoDB connection error:', err);
+  } else {
+    console.log('Connected to MongoDB Atlas');
+  }
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

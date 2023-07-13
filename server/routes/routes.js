@@ -39,6 +39,7 @@ router.post('/recipes', recipeController.postRecipe, (req, res) => {
     res.status(200).json(res.locals.data);
   });
 
+
 // *** switch out this middleware after testing - DRY ***
 // route handler to retrieve user recipes for the homepage and parse data for randomized week with additional parameters 
 router.post('/homepage', generationController.getRecipes, generationController.getIngredients, generationController.handleUserData, generationController.handleLoginData, (req, res) => {

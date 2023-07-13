@@ -23,6 +23,7 @@ recipeController.getRecipes = async (req, res, next) => {
         const result = await db.query(query);
         // data to be passed on to next middleware to obtain associated ingredients
         res.locals.data = result.rows;
+        console.log(res.locals.data);
         return next();
     }
 
