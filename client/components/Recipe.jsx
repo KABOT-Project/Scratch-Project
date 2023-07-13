@@ -1,9 +1,11 @@
 import React from 'react';
-
+import Box from '@mui/material/Box';
 
 const Recipe = ({name}) => {
   return (
-    <h1>{name}</h1>
+    <Box>
+      <h2>{name}</h2>
+    </Box>
 
   )
 }
