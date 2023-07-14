@@ -39,6 +39,12 @@ router.post('/recipes', recipeController.postRecipe, (req, res) => {
     res.status(200).json(res.locals.data);
   });
 
+// route handler to delete recipes
+router.delete('/recipes', (req, res) => {
+  console.log('/recipes DELETE request for *** has fired');
+  res.sendStatus(200);
+})
+
 
 // *** switch out this middleware after testing - DRY ***
 // route handler to retrieve user recipes for the homepage and parse data for randomized week with additional parameters 
