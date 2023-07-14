@@ -16,6 +16,9 @@ const Recipes = () => {
   // hook for submitting new recipe to DB
   const [newRecipe, addNewRecipe] = useState({ recipe_name: '', recipe_type: '', ingredientList: [] });
 
+  // // hook for creating success message text
+  // const [successMessage, setSuccessMessage] = useState('');
+
   // update newRecipe state when recipe textfields edited
   const handleRecipeChange = (e) => {
     addNewRecipe((newRecipe) => ({
@@ -53,7 +56,8 @@ const Recipes = () => {
         // if response received is okay
         if (response.ok){
           // invoke getRecipes, passing in received JS data. This should render recipes to page
-          getRecipes(data);
+          await getRecipes(data);
+          // console.log(data);
         }
       // if GET request fails
       } catch (error) {
@@ -100,24 +104,35 @@ const Recipes = () => {
     })
       .then(response => {
         if (response.ok){
-          console.log(response);
+          // // update success message content
+          // setSuccessMessage('New recipe added successfully!');
         }
       })
       .catch(error => {
         if (error) console.log(error);
       })
+      // setSuccessMessage('');
     };
 
   return ( 
-    <Box>
+    <Box sx={{ textAlign: 'center' }}>
       <Box>
         <h1>Add a New Recipe</h1>
         <form onSubmit={handleNewRecipe}>
-          <TextField name='recipe_name' label="Recipe Name" value={newRecipe.recipe_name} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField>
-          <TextField name='recipe_type' label="Recipe Type" value={newRecipe.recipe_type} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField>
-          <Button variant="contained" onClick={handleNewIngredient}>Add Ingredient</Button>
-          <Button variant="contained" type="submit">Add New Recipe</Button>
-
+          <Box>
+            <Button variant='contained' onClick={handleNewIngredient} sx={{ margin: "10px" }}>Add Ingredient</Button>
+            <Button variant="contained" type="submit" sx={{ margin: "10px" }}>Add New Recipe</Button>
+          </Box>
+          <TextField name='recipe_name' label='Recipe Name'value={newRecipe.recipe_name} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField>
+          {/* <TextField name='recipe_type' label='Recipe Type' value={newRecipe.recipe_type} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField> */}
+          <select name='recipe_type' value={newRecipe.recipe_type} style={{ margin: "10px", padding: "10px", borderRadius: "4px", border: "1px solid #ccc" }} onChange={handleRecipeChange}>
+            <option value=''>Select Recipe Type</option>
+            <option value='Full Meal'>Full Meal</option>
+            <option value='Main Dish'>Main Dish</option>
+            <option value='Side'>Side</option>
+            <option value='Vegetable'
+            >Vegetable</option>
+          </select>
           {ingredients.map((ingredient, index) => (
             <Box>
               <TextField name='ingredient_name' index={index} key={`${index}-ingredient`} label="Ingredient Name" value={newRecipe.ingredientList[index].ingredient_name} onChange={(e) => handleIngredientChange(e, index)} sx={{ margin: "10px" }}></TextField>
@@ -128,12 +143,16 @@ const Recipes = () => {
         </form>
       </Box>
       <Box>
+        {/* {successMessage && (
+          <Alert severity="success">{successMessage}</Alert>
+        )} */}
         <h1>Recipes</h1>
         <Grid container spacing={2}>
           {recipes.map((recipe, index) => (
             <Grid item xs={4} key={index}>
-              <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '200px'}}>
-                <Recipe key={index} name={recipe.recipe_name} />
+              <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px'}}>
+                <Recipe key={index} name={recipe.recipe_name} ingredients={recipe.ingredientList} />
+                {/* <Button variant="contained" type="submit" sx={{ margin: "10px" }}>Delete Recipe</Button> */}
               </Card>
             </Grid>
           ))}

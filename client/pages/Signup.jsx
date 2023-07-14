@@ -49,7 +49,7 @@ const Signup = () => {
       <TextField name='last_name' label="Last Name" sx={{ margin: "10px" }} value={credentials.last_name} onChange={handleChange}></TextField>
       <TextField name='email' label="Email" sx={{ margin: "10px" }} value={credentials.email} onChange={handleChange}></TextField>
       <TextField name='username' label="Username" sx={{ margin: "10px" }} value={credentials.username} onChange={handleChange}></TextField>
-      <TextField name='password' label="Password" sx={{ margin: "10px" }} value={credentials.password} onChange={handleChange}></TextField>
+      <TextField type='password' name='password' label="Password" sx={{ margin: "10px" }} value={credentials.password} onChange={handleChange}></TextField>
       <Button onClick={signupSubmit} variant="contained">Signup</Button>
     </Box>
   )
