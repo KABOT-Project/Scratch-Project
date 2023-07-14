@@ -3,11 +3,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import React, { useState, useEffect } from 'react';
 
-const Grocerylist = ({name}) => {
+const Grocerylist = ({groceryList}) => {
 
     return (
+
         <div>
-            {name}
+            {groceryList.map((ingredient, index) => 
+            <li key={index}>{ingredient.ingredient_name}: {ingredient.amount} {ingredient.unit}</li>
+            )}
         </div>
     )
 
