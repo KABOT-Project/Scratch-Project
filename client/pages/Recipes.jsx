@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
+import Header from '../components/Header';
 
 const Recipes = () => {
   // hook for rendering user recipes
@@ -115,6 +116,8 @@ const Recipes = () => {
     };
 
   return ( 
+    <div>
+    <Header></Header>
     <Box sx={{ textAlign: 'center' }}>
       <Box>
         <h1>Add a New Recipe</h1>
@@ -159,6 +162,7 @@ const Recipes = () => {
         </Grid>
       </Box>
     </Box>
+    </div>
   );
 }
 

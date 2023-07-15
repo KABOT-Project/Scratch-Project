@@ -5,6 +5,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
+import personkitchen from '../assets/personkitchen.jpg'
+import sadperson from '../assets/sad.jpg'
+import sadpersontwo from '../assets/sad2.jpg'
+import picturetwo from '../assets/dkpic.jpg'
+import "../stylesheet.css"
+
 
 const Welcome = () => {
 
@@ -57,18 +63,68 @@ const login = useGoogleLogin({
   onError: errorResponse => console.log(errorResponse),
 });
 
+  useEffect(() => {
+    document.body.classList.add('welcome-body');
+    return () => {
+      document.body.classList.remove('welcome-body');
+    };
+  }, []);
+
   return (
-    <div>
-    <Box>
-      <h1>Welcome to the Jungle!!!</h1>
-      <Button variant="contained" onClick = {handleLoginClick}>Login</Button>
-      <Button variant="contained" onClick = {handleSignupClick}>Signup</Button>
-    </Box>
-    <Button onClick={() => login()}>
-      Sign in with Google 🚀
-      </Button>
-    </div>
+    <section className = "grid-container">
+      <div class="picture1">
+      <div className="gradient-overlay" />
+        <img id="personkitchen" src = {personkitchen} alt="Person in kitchen"/>
+      </div>
+      <div className = "bigLandingText">Pantry Plan</div>
+      <div className = "smallLandingText">For when creating grocery lists is your lowest priority.</div>
+      <div class="testimonials">User Testimonials</div>
+      <div class="picture2">
+        <img id="picture2id" src = {picturetwo} alt="DK Pic"></img>
+      </div>
+      <div class="quote2">"The time saved using Pantry Plan allows me to focus on my true passions in life - skincare."</div>
+      <div class="picture3">
+        <img id="sadperson" src = {sadperson} alt="Sad person in kitchen"></img></div>
+      <div class="quote3">"After two back to back approach lectures, I'm exhausted. Pantry Plan allows me to put my energy where it's deserved."</div>
+      <div class="picture4"><img id="sadpersontwo" src = {sadpersontwo} alt="Second person in kitchen"></img></div>
+      <div class="quote4">"I thought UberEats was less of a lift than shopping then cooking - until Pantry Pan. In my fridge, meal prep containers have replaced week old fried rice. Thanks Pantry Plan!"</div>
+      <div class="loginbutton"><Button variant="contained" onClick = {handleLoginClick}>Login</Button></div>
+      <div class="signupbutton"><Button variant="contained" onClick = {handleSignupClick}>Signup</Button></div>
+      <div class="googlebutton"><Button onClick={() => login()}>Sign in with Google 🚀</Button></div>
+    </section>
   )
 }
 
 export default Welcome;
+
+{/* <Box>
+<h1>Welcome to the Jungle!!!</h1>
+<Button variant="contained" onClick = {handleLoginClick}>Login</Button>
+<Button variant="contained" onClick = {handleSignupClick}>Signup</Button>
+</Box>
+<Button onClick={() => login()}>
+Sign in with Google 🚀
+</Button> */}
+
+     {/* <div className = "image-wrapper"> 
+      </div>
+      <div className = "landingTextContainer">
+        <div className = "bigLandingText">Pantry Plan</div>
+        <div className = "smallLandingText">When creating grocery lists is your lowest priority.</div>
+      </div>
+      <div className = "quotesContainer">
+        <p id = "quote1">"I just don't want to exercise any mental energy in figuring out what to buy after two back to back approach lectures. Pantry Plan allows me to put my energy where it's deserved." 
+        <br></br> 
+        <br></br>
+        Thomas Pappas </p>
+        <div id = "quote2">"Pantry Plan saved my marriage." 
+        <br></br>
+        <br></br>
+        Bruce Onuigbo</div>
+        <br></br>
+        <br></br>
+        Davis Kim </div>
+      </div>
+      <Button variant="contained" onClick = {handleLoginClick}>Login</Button>
+      <Button variant="contained" onClick = {handleSignupClick}>Signup</Button>
+      <Button onClick={() => login()}>Sign in with Google 🚀</Button> */}

@@ -7,6 +7,7 @@ import Grocerylist from '../components/Grocerylist';
 import { useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 const axios = require('axios');
+import "../stylesheet.css"
 
 const Homepage = () => {
 
@@ -102,58 +103,65 @@ const Homepage = () => {
       })
   };
 
-
-  const navigate = useNavigate();
-
-  const logout = async () => {
-    await axios
-       .get("http://localhost:3000/api/logout")
-       .then((response) => {
-        console.log(response);
-        navigate("/");
-       })
-      .catch((err) => console.log(err));
-    }
-
   return (
     <div>
-      <Header></Header>
-      <h1>Homepage</h1>
-      <Button variant="outlined" onClick={logout}>Logout</Button>
-      <Box>
-        <input type="checkbox" id="checkbox1" name="Monday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox1">Monday</label>
-        <input type="checkbox" id="checkbox2" name="Tuesday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox2">Tuesday</label>
-        <input type="checkbox" id="checkbox3" name="Wednesday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox3">Wednesday</label>
-        <input type="checkbox" id="checkbox4" name="Thursday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox4">Thursday</label>
-        <input type="checkbox" id="checkbox5" name="Friday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox5">Friday</label>
-        <input type="checkbox" id="checkbox6" name="Saturday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox6">Saturday</label>
-        <input type="checkbox" id="checkbox7" name="Sunday" onChange={handleWeekInputChange}></input>
-        <label for="checkbox7">Sunday</label><br></br>
-        <p>How many weeks would you like to generate?</p>
-        <TextField type="number" sx={{ margin: "8px" }} onChange={handleWeekNumChange}></TextField><br></br>
-        <Button variant="contained" onClick={generationButtonClick}>Generate</Button>
-      </Box>
-      <Box>
-        <h1>Calendar</h1>
-        {dataAvailable ? (
-          Object.entries(week).map(([property, value], index) => (
-            <Week week={value} key={index} num={index} />
-          ))
-        ) : (
-          <p>You have not scheduled your weeks yet. Please press generate to schedule your meals!</p>
-        )}
-      </Box>
-      <Box>
-        <h1>Grocery List</h1>
+      <Header />
+      <div className="homepage-container">
+        <h1 className="homepage-title">Homepage</h1>
+        <Box className="form-container">
+          <div className="checkbox-group">
+            <label htmlFor="checkbox1">
+              <input type="checkbox" id="checkbox1" name="Monday" onChange={handleWeekInputChange} />
+              Monday
+            </label>
+            <label htmlFor="checkbox2">
+              <input type="checkbox" id="checkbox2" name="Tuesday" onChange={handleWeekInputChange} />
+              Tuesday
+            </label>
+            <label htmlFor="checkbox3">
+              <input type="checkbox" id="checkbox3" name="Wednesday" onChange={handleWeekInputChange} />
+              Wednesday
+            </label>
+            <label htmlFor="checkbox4">
+              <input type="checkbox" id="checkbox4" name="Thursday" onChange={handleWeekInputChange} />
+              Thursday
+            </label>
+            <label htmlFor="checkbox5">
+              <input type="checkbox" id="checkbox5" name="Friday" onChange={handleWeekInputChange} />
+              Friday
+            </label>
+            <label htmlFor="checkbox6">
+              <input type="checkbox" id="checkbox6" name="Saturday" onChange={handleWeekInputChange} />
+              Saturday
+            </label>
+            <label htmlFor="checkbox7">
+              <input type="checkbox" id="checkbox7" name="Sunday" onChange={handleWeekInputChange} />
+              Sunday
+            </label>
+          </div>
+          <div className="weeks-input">
+            <p>How many weeks would you like to generate?</p>
+            <TextField type="number" onChange={handleWeekNumChange} />
+          </div>
+          <Button variant="contained" onClick={generationButtonClick}>
+            Generate
+          </Button>
+        </Box>
+        <div className="calendar-container">
+          <h1 className="calendar-title">Calendar</h1>
+          {dataAvailable ? (
+            Object.entries(week).map(([property, value], index) => (
+              <Week week={value} key={index} num={index} />
+            ))
+          ) : (
+            <p>You have not scheduled your weeks yet. Please press generate to schedule your meals!</p>
+          )}
+        </div>
+        <div className="grocery-list-container">
+          <h1 className="grocery-list-title">Grocery List</h1>
           <Grocerylist groceryList={groceryList} />
-      </Box>
-      
+        </div>
+      </div>
     </div>
   );
 };
