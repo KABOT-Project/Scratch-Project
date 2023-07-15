@@ -65,7 +65,6 @@ generationController.getIngredients = async (req, res, next) => {
 
 generationController.handleUserData = (req, res, next) => {
     try {
-
         // deconstruct the request body
         const { weekDays, weeks } = req.body;
         const input = { weekDays, weeks };
@@ -81,7 +80,7 @@ generationController.handleUserData = (req, res, next) => {
         // filter the raw data for meal type and copy the full data set
         let mainMeals = res.locals.data.filter(obj => obj.recipe_type === 'Main Dish' || obj.recipe_type === 'Full Meal');
         const copyMainMeals = mainMeals.slice();
-        let vegtables = res.locals.data.filter(obj=> obj.recipe_type === 'Vegtable');
+        let vegtables = res.locals.data.filter(obj=> obj.recipe_type === 'Vegetable');
         const copyVegtables = vegtables.slice();
         let sides = res.locals.data.filter(obj=> obj.recipe_type === 'Side');
         const copySides = sides.slice();
@@ -91,7 +90,7 @@ generationController.handleUserData = (req, res, next) => {
         const rawIngredientList = [];
 
         // randomizes meals and adds sides to main dishes and appends ingredients to rawIngredientList array
-        for (let l = count; l >= 0; l--){
+        for (let l = count; l > 0; l--){
             let i = mainMeals.length;
             let randomNum = Math.floor(Math.random() * i);
             
@@ -114,15 +113,16 @@ generationController.handleUserData = (req, res, next) => {
                     };
                     break
                 };
-            }
+            } 
             // *** need to add functionality of not repeating a recent meal  although currently there is about a 1/n**2 chance of a meal occurring back to back which will only happen once all the meals have been scheduled at least once ***
             rawIngredientList.push(mainMeals[randomNum].ingredientList);
-            meals.push(mainMeals.splice(randomNum, 1)[0]);
+            meals.push(JSON.parse(JSON.stringify(mainMeals[randomNum])));
+            mainMeals.splice(randomNum, 1);
             if (mainMeals.length === 0){
-                mainMeals = copyMainMeals.slice();;
+                mainMeals = copyMainMeals.slice();
             }
         };
-
+        
         // declare a response object to be returned to the frontend and organize data in a workable format
         const responseObj = {};
 
@@ -155,13 +155,11 @@ generationController.handleUserData = (req, res, next) => {
         const reducedData = Object.values(flatRawIngredientList.reduce((result, item) => {
             delete item.ingredients_id;
             const key = item.ingredient_name + item.unit;
-          
             if (result[key]) {
               result[key].amount += Number(item.amount);
             } else {
               result[key] = { ...item }; 
             }
-          
             return result;
           }, {}));
           
@@ -179,57 +177,55 @@ generationController.handleUserData = (req, res, next) => {
 };
 
 generationController.handleLoginData = (req, res, next) => {
-
     const responseObj = res.locals.data;
     const reducedData = res.locals.groceryList;
-
-    // construct the mongoDB object
+  
+    // Construct the MongoDB object
     const dbLoginData = {
-        user_id: req.session.user_id,
-        responseObj,
-        reducedData
-    }
-
-    // first search if the user already has a generated recipe schedule
-    models.UserData.findOne({user_id: dbLoginData.user_id })
-        .then(user => {
-            if (user) {
-                // if they do delete, because the user is currently trying to render a new schedule
-                user.delete()
-                .then(() => {
-                    console.log('User deleted');
-                  })
-                  .catch(error => {
-                    console.error('Error deleting user:', error);
-                  });
-            }; 
-        })
-        .catch(error => {
-            return next({
-                log: 'an error occured in finding a users recipes',
-                status: 400,
-                message: 'an error occurred in finding a users recipes'
-              });
+      user_id: req.session.user_id,
+      responseObj,
+      reducedData
+    };
+  
+    // First search if the user already has a generated recipe schedule
+    models.UserData.findOne({ user_id: dbLoginData.user_id })
+      .then(user => {
+        if (user) {
+          // If they do, delete the user because they are currently trying to render a new schedule
+          return user.delete()
+            .then(() => {
+              console.log('User deleted');
+            })
+            .catch(error => {
+              console.error('Error deleting user:', error);
+            });
+        }
+      })
+      .catch(error => {
+        return next({
+          log: 'An error occurred in finding a user\'s recipes',
+          status: 400,
+          message: 'An error occurred in finding a user\'s recipes'
         });
-    
-    // save the new randomized schedule in the mongoDB for future login retrieval 
-    models.UserData.create(dbLoginData)
-        .then(data => {
-            console.log('new instance of user created')
-            return next();
-        })
-        .catch(error => {
+      })
+      .then(() => {
+        // Save the new randomized schedule in MongoDB for future login retrieval
+        return models.UserData.create(dbLoginData)
+          .then(data => {
+            console.log('New instance of user created');
+            next();
+          })
+          .catch(error => {
             return next({
-                log: 'an error occured in creating a recipe instance',
-                status: 400,
-                message: 'an error occurred in adding dbLoginData to mongoDB'
-              });
-        });
-};
+              log: 'An error occurred in creating a recipe instance',
+              status: 400,
+              message: 'An error occurred in adding dbLoginData to MongoDB'
+            });
+          });
+      });
+  };
 
 generationController.fetchCreatedData = (req, res, next) => {
-
-    console.log('this line hit');
 
     models.UserData.findOne({user_id: req.session.user_id })
         .then(data => {
