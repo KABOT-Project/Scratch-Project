@@ -116,7 +116,6 @@ generationController.handleUserData = (req, res, next) => {
             } 
             // *** need to add functionality of not repeating a recent meal  although currently there is about a 1/n**2 chance of a meal occurring back to back which will only happen once all the meals have been scheduled at least once ***
             rawIngredientList.push(mainMeals[randomNum].ingredientList);
-            // meals.push(mainMeals.splice(randomNum, 1)[0]);
             meals.push(JSON.parse(JSON.stringify(mainMeals[randomNum])));
             mainMeals.splice(randomNum, 1);
             if (mainMeals.length === 0){
@@ -156,13 +155,11 @@ generationController.handleUserData = (req, res, next) => {
         const reducedData = Object.values(flatRawIngredientList.reduce((result, item) => {
             delete item.ingredients_id;
             const key = item.ingredient_name + item.unit;
-          
             if (result[key]) {
               result[key].amount += Number(item.amount);
             } else {
               result[key] = { ...item }; 
             }
-          
             return result;
           }, {}));
           
@@ -227,11 +224,8 @@ generationController.handleLoginData = (req, res, next) => {
           });
       });
   };
-  
 
 generationController.fetchCreatedData = (req, res, next) => {
-
-    console.log('this line hit');
 
     models.UserData.findOne({user_id: req.session.user_id })
         .then(data => {

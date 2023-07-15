@@ -66,6 +66,10 @@ router.post('/login', userController.verifyUser, cookieController.setSSIDCookie,
   res.sendStatus(200);
 });
 
+router.get('/about', (req, res) => {
+  res.render('about')
+});
+
 //logout user
 router.get('/logout', (req, res) => {
   console.log('/logout route hit');
