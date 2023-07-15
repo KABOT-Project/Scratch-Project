@@ -33,14 +33,14 @@ const Header = () => {
   };
 
   return (
-    <Box className="header-container">
+    <Box className="header-container" color="rgb(191, 186, 186)">
       <button className="logo-button" onClick={handleHomepageNavigation}>
         <Typography className="logo" variant="h3" component="div">
           PantryPlanner
         </Typography>
       </button>
       <div className="navigation-buttons">
-        <Button variant="outlined" color="primary" onClick={handleRecipeNavigation}>
+        <Button sx={{color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} variant="outlined" color="primary" onClick={handleRecipeNavigation}>
           My Recipes
         </Button>
         <Button variant="outlined" color="primary" onClick={handleAboutNavigation}>
