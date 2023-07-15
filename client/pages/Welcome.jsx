@@ -6,9 +6,10 @@ import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 import personkitchen from '../assets/personkitchen.jpg'
-import sadperson from '../assets/sad.jpg'
-import sadpersontwo from '../assets/sad2.jpg'
+import pugpic from '../assets/pugpic.jpg'
+import picturefour from '../assets/muratpic.jpg'
 import picturetwo from '../assets/dkpic.jpg'
+import picturefive from '../assets/brucepic.jpg'
 import "../stylesheet.css"
 
 
@@ -82,15 +83,18 @@ const login = useGoogleLogin({
       <div class="picture2">
         <img id="picture2id" src = {picturetwo} alt="DK Pic"></img>
       </div>
-      <div class="quote2">"The time saved using Pantry Plan allows me to focus on my true passions in life - skincare."</div>
+      <div class="quote2">"The time saved using Pantry Plan allows me to focus on my true passion in life - skincare."</div>
       <div class="picture3">
-        <img id="sadperson" src = {sadperson} alt="Sad person in kitchen"></img></div>
-      <div class="quote3">"After two back to back approach lectures, I'm exhausted. Pantry Plan allows me to put my energy where it's deserved."</div>
-      <div class="picture4"><img id="sadpersontwo" src = {sadpersontwo} alt="Second person in kitchen"></img></div>
-      <div class="quote4">"I thought UberEats was less of a lift than shopping then cooking - until Pantry Pan. In my fridge, meal prep containers have replaced week old fried rice. Thanks Pantry Plan!"</div>
-      <div class="loginbutton"><Button variant="contained" onClick = {handleLoginClick}>Login</Button></div>
-      <div class="signupbutton"><Button variant="contained" onClick = {handleSignupClick}>Signup</Button></div>
-      <div class="googlebutton"><Button onClick={() => login()}>Sign in with Google 🚀</Button></div>
+        <img id="sadperson" src = {pugpic} alt="Pug picture"></img></div>
+      <div class="quote3">"After two back to back approach lectures, I'm exhausted. Pantry Plan allows more energy for my pugs."</div>
+      <div class="picture4"><img id="sadpersontwo" src = {picturefour} alt="Second person in kitchen"></img></div>
+      <div class="quote4">"I thought UberEats was easier than grocery shopping and cooking - until Pantry Plan. In my fridge, meal prep containers have replaced weeks old fried rice. Thanks Pantry Plan!"</div>
+      <div class="picture5">
+        <img id="picturefive" src = {picturefive} alt="Thumbs down"></img></div>
+      <div class="quote5">"I give two thumbs down...to NOT using Pantry Plan."</div>
+      <div class="loginbutton"><Button variant="contained" style={{ fontSize: '15px' }} sx={{ color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} onClick = {handleLoginClick}>Login</Button></div>
+      <div class="signupbutton"><Button variant="contained" style={{ fontSize: '15px' }} sx={{ color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} onClick = {handleSignupClick}>Signup</Button></div>
+      <div class="googlebutton"><Button variant="contained" style={{ fontSize: '15px' }} sx={{ color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} onClick={() => login()}>Sign In with Google 🚀</Button></div>
     </section>
   )
 }
@@ -128,3 +132,9 @@ Sign in with Google 🚀
       <Button variant="contained" onClick = {handleLoginClick}>Login</Button>
       <Button variant="contained" onClick = {handleSignupClick}>Signup</Button>
       <Button onClick={() => login()}>Sign in with Google 🚀</Button> */}
+
+      // <div class="loginbutton"><Button variant="contained" onClick = {handleLoginClick}>Login</Button></div>
+      // <div class="signupbutton"><Button variant="contained" onClick = {handleSignupClick}>Signup</Button></div>
+      // <div class="googlebutton"><Button onClick={() => login()}>Sign in with Google 🚀</Button></div>
+
+      // <div class="quote3">"After two back to back approach lectures, I'm exhausted. Pantry Plan allows me to put my energy where it's deserved."</div>
