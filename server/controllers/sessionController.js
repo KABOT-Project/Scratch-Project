@@ -10,7 +10,7 @@ sessionController.isLoggedIn = async (req, res, next) => {
         if (req.session.authentication = true) {
             return next(); 
         } else {
-            window.location.href = '/login'
+            window.location.href = '/welcome'
         }
     }
 
