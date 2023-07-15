@@ -50,10 +50,6 @@ const Homepage = () => {
         console.log('Error occurred while fetching user data:', error);
       });
     }
-  
-  useEffect(() => {
-  }, [week, groceryList])
-  
 
   const handleWeekInputChange = (e) => {
     const { name, checked } = e.target;

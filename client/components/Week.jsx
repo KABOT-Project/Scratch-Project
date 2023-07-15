@@ -10,9 +10,9 @@ const Week = ({ week, num }) => {
   return (
     <div>
       <h1>Week {num + 1}</h1>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {Object.entries(week).map(([property, value], index) => (
-          <Grid item xs={12} sm={7} md={2} lg={1} key={property}>
+          <Grid item xs={12} sm={7} md={1} lg={1} key={property}>
             <Day
               day={property}
               name={value.recipe_name}
