@@ -7,11 +7,11 @@ import React, { useState, useEffect } from 'react';
 const Day = ({ day, name, side, vegetable }) => {
   return (
     <Grid item xs={1}>
-      <Box
+      <Box 
         sx={{
           border: '0px solid #333',
           padding: '10px',
-          width: '150px',
+          width: '140px',
           height: '200px',
           borderRadius: '8px',
           backgroundColor: 'rgba(88, 103, 105, 0.73)',

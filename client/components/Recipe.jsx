@@ -22,6 +22,7 @@ const Recipe = ({ name, ingredients }) => {
       <Button variant="outlined" onClick={toggleIngredients}>
         {showIngredients ? 'Hide Ingredients' : 'Show Ingredients'}
       </Button>
+      
     </Box>
   );
 };

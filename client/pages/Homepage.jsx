@@ -146,7 +146,7 @@ const Homepage = () => {
           </div>
           <div className="weeks-input">
             <p>How many weeks would you like to generate?</p>
-            <TextField type="number" onChange={handleWeekNumChange} />
+            <TextField max="99" type="number" onChange={handleWeekNumChange} />
           </div>
           <Button style={{ fontSize: '30px' }} variant="contained" sx={{color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} onClick={generationButtonClick}>
             Generate
