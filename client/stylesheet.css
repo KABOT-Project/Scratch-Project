@@ -184,9 +184,9 @@
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 6;
-    font-size: 30px;
+    font-size: 40px;
     font-style: italic;
-    margin-left: 30px;
+    margin-left: 60px;
     align-self: center;
 }
 .loginbutton{
@@ -209,61 +209,6 @@
     margin-top: 5%;
     margin-left: 33%;
 }
-/* 
-.grid-container .image-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  
- .grid-container .image-wrapper:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(30, 91, 118, 0.73));
-}
-
-.grid-container img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.landingTextContainer{
-    width: 35%;
-    position: absolute;
-    top: 30%;
-    left: 40px;
-}
-
-.quotesContainer{
-    width: 35%;
-    font-size: 20px;
-    position: absolute;
-    top: 15%;
-    right: 0%; 
-    font-style: italic;
-}
-
-#quote1{
-    margin: 30px;
-}
-
-#quote2{
-    margin: 30px;
-}
-
-#quote3{
-    margin: 30px;
-} 
-
-/* img#personkitchen {
-    background-size: cover; 
-    background-position: center;
-} */ 
 
 .homepage-container {
     display: flex;
@@ -273,7 +218,8 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    font-family: 'Roboto', sans-serif; /* Updated font family */
+    font-family: 'Montserrat', sans-serif;
+    /* font-family: 'Roboto', sans-serif; Updated font family */
   }
   
   .homepage-title {
@@ -317,14 +263,15 @@
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    text-align: center;
   }
   
   .calendar-title {
-    font-size: 36px; /* Increased font size */
+    font-size: 42px; /* Increased font size */
     margin-bottom: 20px;
     color: #333;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    font-weight: bold; /* Added font weight */
+    font-weight: 1000px; /* Added font weight */
   }
   
   .grocery-list-container {
@@ -333,29 +280,32 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
   
   .grocery-list-title {
-    font-size: 36px; /* Increased font size */
+    font-size: 42px; /* Increased font size */
     margin-bottom: 20px;
     color: #333;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: bold; /* Added font weight */
   }
   
-  
   .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background-color: #6495ED;
+    /* background-color: #6495ED; */
+    background-image: linear-gradient(to right, rgba(88, 103, 105, 0.73), rgba(59, 92, 97, 0.73));
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .logo-button {
     border: none;
+    font-family: 'Montserrat', sans-serif;
     background: none;
     outline: none;
     cursor: pointer;
@@ -385,14 +335,14 @@
   
   .navigation-buttons button {
     margin-right: 8px;
-    font-size: 14px;
+    font-size: 17px;
     text-transform: uppercase;
     border: none;
-    background-color: #FFFFFF;
+    background-color: rgba(36, 57, 60, 0.73);
     padding: 8px 16px;
     border-radius: 4px;
     transition: background-color 0.3s ease-in-out;
-    color: #333333;
+    color: rgb(191, 186, 186);
     font-weight: bold;
     border: 2px solid transparent; /* Add transparent border */
 }
@@ -406,4 +356,15 @@
     margin-right: 0;
   }
   
-  
+.about{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  h1{
+    font-size: 10px;
+    background-color: rgb(191, 186, 186);
+    font-weight: 500px;
+  };
+  ul{
+    font-size: 10px;
+  };
+}

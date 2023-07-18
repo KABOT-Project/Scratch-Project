@@ -77,7 +77,7 @@ const login = useGoogleLogin({
       <div className="gradient-overlay" />
         <img id="personkitchen" src = {personkitchen} alt="Person in kitchen"/>
       </div>
-      <div className = "bigLandingText">Pantry Plan</div>
+      <div className = "bigLandingText">PantryPlanner</div>
       <div className = "smallLandingText">For when creating grocery lists is your lowest priority.</div>
       <div class="testimonials">User Testimonials</div>
       <div class="picture2">

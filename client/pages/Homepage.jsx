@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 const axios = require('axios');
 import "../stylesheet.css"
+import { set } from 'mongoose';
 
 const Homepage = () => {
 
@@ -26,7 +27,7 @@ const Homepage = () => {
     fetchData();
   }, []);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     fetch('/api/homepage', {
       method: 'GET',
       headers: {
@@ -85,10 +86,14 @@ const Homepage = () => {
         throw new Error('Error in POST request');
       })
       .then(data => {
+          // if (data.data){
           setWeek(data.data);
           setGroceryList(data.groceryList);
           setWeekNum(0);
           setWeekInput({Monday: false, Tuesday: false, Wednesday: false, Thursday: false, Friday: false, Saturday: false, Sunday: false})
+          // } else {
+          //   setDataAvailable(false);
+          // }
 
           const checkboxes = document.querySelectorAll('input[type="checkbox"]');
           checkboxes.forEach((checkbox) => {
@@ -141,9 +146,9 @@ const Homepage = () => {
           </div>
           <div className="weeks-input">
             <p>How many weeks would you like to generate?</p>
-            <TextField type="number" onChange={handleWeekNumChange} />
+            <TextField max="99" type="number" onChange={handleWeekNumChange} />
           </div>
-          <Button variant="contained" onClick={generationButtonClick}>
+          <Button style={{ fontSize: '30px' }} variant="contained" sx={{color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} onClick={generationButtonClick}>
             Generate
           </Button>
         </Box>

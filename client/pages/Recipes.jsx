@@ -118,17 +118,18 @@ const Recipes = () => {
   return ( 
     <div>
     <Header></Header>
-    <Box sx={{ textAlign: 'center' }}>
+    <Box sx={{ textAlign: 'center', fontFamily:'Montserrat, sans-serif'  }}>
       <Box>
         <h1>Add a New Recipe</h1>
         <form onSubmit={handleNewRecipe}>
           <Box>
-            <Button variant='contained' onClick={handleNewIngredient} sx={{ margin: "10px" }}>Add Ingredient</Button>
-            <Button variant="contained" type="submit" sx={{ margin: "10px" }}>Add New Recipe</Button>
+            <Button style={{ fontSize: '30px' }} sx={{ margin: "10px", color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} variant='contained' onClick={handleNewIngredient}>Add Ingredient</Button>
+            <Button style={{ fontSize: '30px' }} sx={{ margin: "10px", color: 'rgb(191, 186, 186)', backgroundColor: 'rgba(36, 57, 60, 0.73)'}} variant="contained" type="submit">Add New Recipe</Button>
           </Box>
           <TextField name='recipe_name' label='Recipe Name'value={newRecipe.recipe_name} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField>
           {/* <TextField name='recipe_type' label='Recipe Type' value={newRecipe.recipe_type} sx={{ margin: "10px" }} onChange={handleRecipeChange}></TextField> */}
-          <select name='recipe_type' value={newRecipe.recipe_type} style={{ margin: "10px", padding: "10px", borderRadius: "4px", border: "1px solid #ccc" }} onChange={handleRecipeChange}>
+          <select name='recipe_type' value={newRecipe.recipe_type} style={{ margin: "10px", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", width: "200px", height: "55px", fontSize: "16px", color: "rgb(100, 100, 100)" }}  
+           onChange={handleRecipeChange} >
             <option value=''>Select Recipe Type</option>
             <option value='Full Meal'>Full Meal</option>
             <option value='Main Dish'>Main Dish</option>
@@ -146,16 +147,12 @@ const Recipes = () => {
         </form>
       </Box>
       <Box>
-        {/* {successMessage && (
-          <Alert severity="success">{successMessage}</Alert>
-        )} */}
         <h1>Recipes</h1>
         <Grid container spacing={2}>
           {recipes.map((recipe, index) => (
             <Grid item xs={4} key={index}>
               <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px'}}>
                 <Recipe key={index} name={recipe.recipe_name} ingredients={recipe.ingredientList} />
-                {/* <Button variant="contained" type="submit" sx={{ margin: "10px" }}>Delete Recipe</Button> */}
               </Card>
             </Grid>
           ))}
